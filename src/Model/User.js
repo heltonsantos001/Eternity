@@ -4,26 +4,30 @@ import bcrypt from 'bcrypt'
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        require: true,
+        required: true,
         unique: true,
     },
     email: {
         type: String,
-        require: true,
+        required: true,
         unique: true,
         lowercase: true,
     },
     password: {
         type: String,
-        require: true,
+        required: true,
         select: false,
+    },
+    date: {
+        type: Date,
+        default: Date.now(),
     }
 
 })
     
 userSchema.pre('save', async function (next) {
 
-    this.userSchema = await bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
     next()
 })
 

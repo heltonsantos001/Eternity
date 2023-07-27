@@ -1,29 +1,71 @@
-import { createService } from "../Service/User.Service.js"
+import { createService, searchService, findById } from "../Service/User.Service.js"
 
-export const create = async (req, res) => {
-    
-    const { name, email, password } = req.body
+export const registerUser = async (req, res) => {
 
-    if (!name || !email || !password) {
+    try {
+       
+        const { name, email, password } = req.body
 
-        return res.status(400).send({ message: error })
-        
+
+        if (!name || !email || !password) {
+
+            return res.status(400).send({ message: error })
+
+        }
+
+        const User = await createService(req.body)
+
+        if (!User) {
+            return res.status(400).send({ message: "User not found" })
+        }
+
+        res.send(User)
+
+    } catch (err) {
+        res.status(500).send(err.message)
     }
-
-    const User = await createService(req.body)
-
-    if (!User) {
-        return res.status(400).send({message: "User not found"})
-    }
-
-    res.send({message: "user create"})
 
 }
 
-export const findAll = async (req, res) =>{
+export const searchUsers = async (req, res) => {
 
-    const users = await findAllService()
+    try {
+        const { name } = req.query
 
-    console.lo(users)
+        if (!name || name.trim() === '') {
+            return res.status(400).send({ message: "nome necessario" })
+        }
+
+        const users = await searchService(name)
+
+        if (!users) {
+            return res.status(404).send({ message: "user not found" })
+        }
+
+        res.send(users)
+
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
+
+}
+
+export const getUserById = async (req, res) => {
+
+    try {
+
+        const id = req.userID
+
+        const User = await findById(id)
+
+        if (!User) {
+            return res.status(400).send({ message: "User not found" })
+        }
+
+        res.send(User)
+
+    } catch (err) {
+        res.status(500).send(err.message)
+    }
 
 }

@@ -4,7 +4,7 @@ import { connectMongoDb } from "./src/DataBase/DB.js";
 import Dotenv from "dotenv";
 
 const App = Express();
-const PORT = 4000
+const PORT = 3008
 
 Dotenv.config()
 App.use(Express.json())
