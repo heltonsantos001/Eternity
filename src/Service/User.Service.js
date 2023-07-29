@@ -9,5 +9,7 @@ export const searchService = (name) => User.find({
     }
 })
 
+export const findById = (id) => User.findById({_id:id})
 
-export const findById = (id) => User.findById(id)
+export const updateService = (id, name, fotoPerfil) => User.findOneAndUpdate({ _id: id }, { name, fotoPerfil })
+

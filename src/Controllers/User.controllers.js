@@ -1,15 +1,14 @@
-import { createService, searchService, findById } from "../Service/User.Service.js"
+import { createService, searchService, findById, updateService  } from "../Service/User.Service.js"
 
 export const registerUser = async (req, res) => {
 
     try {
-       
-        const { name, email, password } = req.body
 
+        const { name, email, password, fotoPerfil} = req.body
 
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !fotoPerfil) {
 
-            return res.status(400).send({ message: error })
+            return res.status(400).send({ message: "nome email e password necessario" })
 
         }
 
@@ -19,7 +18,8 @@ export const registerUser = async (req, res) => {
             return res.status(400).send({ message: "User not found" })
         }
 
-        res.send(User)
+        res.send({
+            message: "usuario criado com sucesso"})
 
     } catch (err) {
         res.status(500).send(err.message)
@@ -67,5 +67,29 @@ export const getUserById = async (req, res) => {
     } catch (err) {
         res.status(500).send(err.message)
     }
+
+}
+
+export const update = async (req, res) => {
+
+    const { name, fotoPerfil} = req.body
+    
+    if (!name && !fotoPerfil) {
+        return res.status(422).send({ error: 'Name is required' })
+    }
+        
+    const user = await findById(req.userId)
+
+    if(!user){
+        return res.status(400).send({ message:"usuario nao encontrado"})
+    }
+
+    
+    await updateService(req.userId, name, fotoPerfil)
+
+    res.send({
+        message: "usuario modificado com sucesso",
+        user
+    })
 
 }

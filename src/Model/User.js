@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
 
 const userSchema = new mongoose.Schema({
+    fotoPerfil: {
+        type: Buffer,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
