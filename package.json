@@ -4,7 +4,11 @@
   "description": "rede social",
   "type": "module",
   "main": "App.js",
+  "engines":{
+    "node":"14.x"
+  },
   "scripts": {
+    "start": "node App.js",
     "dev": "nodemon App"
   },
   "author": "",
@@ -17,6 +21,7 @@
     "mongodb": "^5.7.0",
     "mongoose": "^7.4.1",
     "multer": "^1.4.5-lts.1",
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.1",
+    "swagger-ui-express": "^5.0.0"
   }
 }
