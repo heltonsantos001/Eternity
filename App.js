@@ -5,6 +5,7 @@ import PostRouter from "./src/Router/Post.Router.js";
 
 import { connectMongoDb } from "./src/DataBase/DB.js";
 import Dotenv from "dotenv";
+import cors from 'cors'
 
 const App = Express();
 const PORT = process.env.PORT || 3008
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 3008
 Dotenv.config();
 App.use(Express.json());
 
+App.use(cors())
 App.use('/User', UserRouter);
 App.use('/auth', AuthRouter);
 App.use('/Post', PostRouter);
