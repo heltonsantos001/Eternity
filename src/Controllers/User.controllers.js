@@ -1,4 +1,5 @@
 import { createService, searchService, findById, updateService  } from "../Service/User.Service.js"
+import { Buffer } from 'buffer'
 
 export const registerUser = async (req, res) => {
 
@@ -12,7 +13,9 @@ export const registerUser = async (req, res) => {
 
         }
 
-        const fotoPerfil = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFG1To4TogtlbKeoY9vMnHk-t13uRZ71G0Zg&usqp=CAU"
+        const fotoPerfilUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFG1To4TogtlbKeoY9vMnHk-t13uRZ71G0Zg&usqp=CAU"; 
+
+        const fotoPerfil = Buffer.from(fotoPerfilUrl);
 
         const User = await createService(name, email, password, fotoPerfil)
 
