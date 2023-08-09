@@ -13,11 +13,12 @@ export const registerUser = async (req, res) => {
 
         }
 
-        const fotoPerfilUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFG1To4TogtlbKeoY9vMnHk-t13uRZ71G0Zg&usqp=CAU"; 
+        const fotoPerfil = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFG1To4TogtlbKeoY9vMnHk-t13uRZ71G0Zg&usqp=CAU"; 
 
-        const fotoPerfil = Buffer.from(fotoPerfilUrl);
 
         const User = await createService(name, email, password, fotoPerfil)
+
+        console.log(User)
 
         if (!User) {
             return res.status(400).send({ message: "User not found" })
