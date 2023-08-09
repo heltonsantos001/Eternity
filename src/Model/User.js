@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt'
 
 const userSchema = new mongoose.Schema({
     fotoPerfil: {
-        type: Buffer,
+        type: Buffer || String,
         required: true,
     },
     name: {

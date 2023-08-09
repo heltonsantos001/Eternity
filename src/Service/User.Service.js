@@ -1,6 +1,6 @@
 import { User } from '../Model/User.js'
 
-export const createService = (body) => User.create(body)
+export const createService = (name, email, password, fotoPerfil) => User.create({ name, email, password, fotoPerfil })
 
 export const searchService = (name) => User.find({
     name: {

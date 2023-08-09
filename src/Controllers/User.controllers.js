@@ -4,15 +4,17 @@ export const registerUser = async (req, res) => {
 
     try {
 
-        const { name, email, password, fotoPerfil} = req.body
+        const {name, email, password} = req.body
 
-        if (!name || !email || !password || !fotoPerfil) {
+       if (!name || !email || !password) {
 
             return res.status(400).send({ message: "nome email e password necessario" })
 
         }
 
-        const User = await createService(req.body)
+        const fotoPerfil = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFG1To4TogtlbKeoY9vMnHk-t13uRZ71G0Zg&usqp=CAU"
+
+        const User = await createService(name, email, password, fotoPerfil)
 
         if (!User) {
             return res.status(400).send({ message: "User not found" })
