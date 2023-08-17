@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const postSchema = new mongoose.Schema({
     fotoPost: {
-        type: Buffer,
+        type: String,
         required: true,
     },
     title: {
