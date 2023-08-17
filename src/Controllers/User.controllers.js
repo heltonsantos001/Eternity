@@ -18,7 +18,6 @@ export const registerUser = async (req, res) => {
 
         const User = await createService(name, email, password, fotoPerfil)
 
-        console.log(User)
 
         if (!User) {
             return res.status(400).send({ message: "User not found" })

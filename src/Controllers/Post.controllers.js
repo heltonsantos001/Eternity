@@ -4,7 +4,9 @@ import { createService, PostFindById, updateService, deleteService, ByUserServic
 export const create = async (req, res) => {
 
     try {
-        const { fotoPost, title } = req.body
+        const { title } = req.body
+
+        const fotoPost = req.file
 
         if (!fotoPost || !title) {
             return res.status(400).send({ message: "foto e titulo necessario" })
