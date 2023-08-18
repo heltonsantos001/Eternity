@@ -2,6 +2,9 @@ import Express from "express";
 import UserRouter from "./src/Router/User.Router.js";
 import AuthRouter from "./src/Router/Auth.Router.js";
 import PostRouter from "./src/Router/Post.Router.js";
+import multer from "multer"
+
+const IMG_BB_API_KEY = 'b8a8b0cc6c40fa877dee7732d1d3f2a2'
 
 import { connectMongoDb } from "./src/DataBase/DB.js";
 import Dotenv from "dotenv";

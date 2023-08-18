@@ -6,7 +6,8 @@ export const create = async (req, res) => {
     try {
         const { title } = req.body
 
-        const fotoPost = req.file
+        const {firebaseUrl} = req.file
+        const fotoPost = firebaseUrl
 
         if (!fotoPost || !title) {
             return res.status(400).send({ message: "foto e titulo necessario" })
