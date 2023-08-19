@@ -13,7 +13,7 @@ export const registerUser = async (req, res) => {
 
         }
 
-        const fotoPerfil = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFG1To4TogtlbKeoY9vMnHk-t13uRZ71G0Zg&usqp=CAU"; 
+        const fotoPerfil = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT80iTMvbkZqHoS3Zds5Zat4QgHeVDDJoE0hQ&usqp=CAU"; 
 
 
         const User = await createService(name, email, password, fotoPerfil)
@@ -77,7 +77,13 @@ export const getUserById = async (req, res) => {
 
 export const update = async (req, res) => {
 
-    const { name, fotoPerfil} = req.body
+    const { name} = req.body
+    
+
+    const { firebaseUrl } = req.file
+
+    const fotoPerfil = firebaseUrl
+
     
     if (!name && !fotoPerfil) {
         return res.status(422).send({ error: 'Name is required' })
