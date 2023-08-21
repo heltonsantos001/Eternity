@@ -116,7 +116,7 @@ export const deletePost = async (req, res) => {
 
 export const ByUser = async (req, res) => {
     try {
-        const id = req.userId
+        const {id} = req.body
 
         const post = await ByUserService(id)
 
