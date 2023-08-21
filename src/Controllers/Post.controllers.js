@@ -116,9 +116,11 @@ export const deletePost = async (req, res) => {
 
 export const ByUser = async (req, res) => {
     try {
-        const {id} = req.params
+        const { id } = req.params
+        console.log(id)
         
-        if(!id) return res.status(400).send({message: "id nao encontrado"})
+        if (!id) return res.status(400).send({ message: "id nao encontrado" })
+        
 
         const post = await ByUserService(id)
 
