@@ -7,7 +7,7 @@ export const AuthMiddleware = (req, res, next) => {
         const { authorization } = req.headers
 
         if (!authorization) {
-            return res.send(401)
+            return res.status(401).send({message:"nao autorizado"})
         }
 
         const parts = authorization.split(" ")
