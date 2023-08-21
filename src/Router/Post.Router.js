@@ -15,7 +15,7 @@ Router.post('/postagem', Multer.single("imagem"), uploadImage,AuthMiddleware, cr
 Router.patch('/update/:id',validID, AuthMiddleware, updatePost)
 Router.get('/:id', validID, PostId)
 Router.delete('/delete/:id', validID, AuthMiddleware, deletePost)
-Router.get('/:id', ByUser)
+Router.get('ByPost/:id', ByUser)
 Router.patch('/like/:id', validID, AuthMiddleware, likes)
 Router.patch('/comments/:id', validID, AuthMiddleware, addcomments)
 Router.patch('/comments/:id/:idComment', validID, AuthMiddleware, deleteComments)
