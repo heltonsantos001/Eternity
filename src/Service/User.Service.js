@@ -1,6 +1,7 @@
 import { User } from '../Model/User.js'
 import admin from "firebase-admin"
 import sharp from "sharp"
+import serviceAccount from "../config/firebase.mjs"
 
 export const createService = (name, email, password, fotoPerfil, verified, founder) => User.create({ name, email, password, fotoPerfil, verified, founder })
 
@@ -33,11 +34,12 @@ export const uploadImageUser = async (req, res, next) => {
 
     if (!req.file) return res.status(400).send("adicione uma imagem")
 
+    const imagem = req.file
+
     const tamanho = 200
 
-    const imagemCortada = await sharp(req.file).resize(tamanho, tamanho)
-
-    const imagem = imagemCortada
+    const imagemCortada = await sharp(imagem.buffer).resize(tamanho, tamanho).toBuffer()
+    
     const fileName = Date.now() + "." + imagem.originalname.split(".").pop()
 
     const file = bucket.file(fileName)
@@ -62,5 +64,5 @@ export const uploadImageUser = async (req, res, next) => {
         next()
     })
 
-    stream.end(imagem.buffer)
+    stream.end(imagemCortada)
 }
