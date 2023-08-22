@@ -1,4 +1,4 @@
-import { createService, searchService, findById, updateService  } from "../Service/User.Service.js"
+import { createService, searchService, findById, updateService, findByAllUser  } from "../Service/User.Service.js"
 import { Buffer } from 'buffer'
 
 export const registerUser = async (req, res) => {
@@ -7,17 +7,19 @@ export const registerUser = async (req, res) => {
 
         const {name, email, password} = req.body
 
+        const users = await findByAllUser()
+
+        const founder = users.length == 0 ? "true" : "false"
+        const verified = users.length <= 25 ?"true":"false"
+    
        if (!name || !email || !password) {
 
             return res.status(400).send({ message: "nome email e password necessario" })
-
         }
 
         const fotoPerfil = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT80iTMvbkZqHoS3Zds5Zat4QgHeVDDJoE0hQ&usqp=CAU"; 
 
-
-        const User = await createService(name, email, password, fotoPerfil)
-
+        const User = await createService(name, email, password, fotoPerfil, verified, founder)
 
         if (!User) {
             return res.status(400).send({ message: "User not found" })
@@ -29,7 +31,6 @@ export const registerUser = async (req, res) => {
     } catch (err) {
         res.status(500).send(err.message)
     }
-
 }
 
 export const searchUsers = async (req, res) => {

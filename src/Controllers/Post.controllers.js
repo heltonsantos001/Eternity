@@ -124,8 +124,7 @@ export const ByUser = async (req, res) => {
 
         const post = await ByUserService(id)
 
-        if (post.length === 0) return res.status(400).send({ message: "post nao encontrado" })
-
+        if (post.length === 0) return res.send(post)
         res.send({
             results: post.map((item) => ({
                 id: item._id,
