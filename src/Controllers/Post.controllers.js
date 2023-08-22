@@ -252,6 +252,8 @@ export const findAll = async (req, res) => {
                 idUser: post.user.id,
                 name: post.user.name,
                 fotoUser: post.user.fotoPerfil,
+                founder: post.user.founder,
+                verified: post.user.verified
             }))
         })
 
