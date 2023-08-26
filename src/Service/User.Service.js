@@ -15,6 +15,8 @@ export const findById = (id) => User.findById({_id:id})
 
 export const updateService = (id, name, fotoPerfil) => User.findOneAndUpdate({ _id: id }, { name, fotoPerfil })
 
+export const updateService2 = (id, fotoPerfil) => User.findOneAndUpdate({ _id: id }, { fotoPerfil })
+
 export const findByAllUser = () => User.find()
 
 

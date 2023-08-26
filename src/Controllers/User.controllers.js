@@ -1,4 +1,4 @@
-import { createService, searchService, findById, updateService, findByAllUser  } from "../Service/User.Service.js"
+import { createService, searchService, findById, updateService, findByAllUser, updateService2  } from "../Service/User.Service.js"
 import { Buffer } from 'buffer'
 
 export const registerUser = async (req, res) => {
@@ -9,7 +9,7 @@ export const registerUser = async (req, res) => {
 
         const users = await findByAllUser()
 
-        const founder = users.length == 0 ? "true" : "false"
+        const founder = users.length <= 1 ? "true" : "false"
         const verified = users.length <= 25 ?"true":"false"
     
        if (!name || !email || !password) {
@@ -17,7 +17,7 @@ export const registerUser = async (req, res) => {
             return res.status(400).send({ message: "nome email e password necessario" })
         }
 
-        const fotoPerfil = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT80iTMvbkZqHoS3Zds5Zat4QgHeVDDJoE0hQ&usqp=CAU"; 
+        const fotoPerfil = "https://png.pngtree.com/template/20190214/ourlarge/pngtree-purple-infinity-symbol-icons-vector-illustration--unlimitedlim-image_55278.jpg"; 
 
         const User = await createService(name, email, password, fotoPerfil, verified, founder)
 
@@ -77,31 +77,74 @@ export const getUserById = async (req, res) => {
 }
 
 export const update = async (req, res) => {
+    const { name } = req.body;
 
-    const { name} = req.body
+    if (!name && req.file) {
+
+        try {
+            const firebaseUrl = req.file.firebaseUrl;
+
+            const fotoPerfil = firebaseUrl
+            const user = await findById(req.userId);
+
+            if (!user) {
+                return res.status(400).send({ message: "User not found" });
+            }
+
+            await updateService2(req.userId, fotoPerfil);
+
+            return res.send({
+                message: "User updated successfully",
+            });
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    } 
     
 
-    const { firebaseUrl } = req.file
+    if (!req.file) {
+        if (!name) {
+            return res.status(422).send({ error: 'Name is required' });
+        }
 
-    const fotoPerfil = firebaseUrl
+        try {
+            const user = await findById(req.userId);
 
-    
-    if (!name && !fotoPerfil) {
-        return res.status(422).send({ error: 'Name is required' })
-    }
+            if (!user) {
+                return res.status(400).send({ message: "User not found" });
+            }
+
+            await updateService(req.userId, name);
+
+            return res.send({
+                message: "User updated successfully",
+            });
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    } 
+
         
-    const user = await findById(req.userId)
 
-    if(!user){
-        return res.status(400).send({ message:"usuario nao encontrado"})
-    }
+    try {
 
-    
-    await updateService(req.userId, name, fotoPerfil)
+        const firebaseUrl = req.file.firebaseUrl;
 
-    res.send({
-        message: "usuario modificado com sucesso",
-        user
-    })
+        const fotoPerfil = firebaseUrl
+        const user = await findById(req.userId);
 
-}
+            if (!user) {
+                return res.status(400).send({ message: "User not found" });
+            }
+
+        await updateService(req.userId, name, fotoPerfil);
+
+            return res.send({
+                message: "User updated successfully",
+                user: { ...user._doc, name, fotoPerfil: firebaseUrl },
+            });
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+};
+

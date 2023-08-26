@@ -63,7 +63,7 @@ export const PostId = async (req, res) => {
         const post = await PostFindById(id)
 
         if (!post) {
-            return res.status(400).send({ message: "postagem nao encontrada" })
+            return res.sen(post)
         }
 
         res.send({
@@ -73,8 +73,7 @@ export const PostId = async (req, res) => {
             likes: post.likes,
             comments: post.comments.map((comment) => ({
                 user: comment.user,
-                idComment: comment.idComment
-                ,
+                idComment: comment.idComment,
                 comment: comment.comment,
                 Data: comment.created
             })),
@@ -125,10 +124,12 @@ export const ByUser = async (req, res) => {
         const post = await ByUserService(id)
 
         if (post.length === 0) return res.send(post)
+
         res.send({
             results: post.map((item) => ({
                 id: item._id,
                 title: item.title,
+                data: item.createdAt,
                 foto: item.fotoPost,
                 likes: item.likes,
                 comments: item.comments,
@@ -168,7 +169,7 @@ export const addcomments = async (req, res) => {
         const user = req.userId
         const { comment } = req.body
 
-        if (!comment) return res.status(400).send({ message: "errei, fui mlk" });
+        if (!comment) return res.status(400).send({ message: "adicione um comentario" });
 
         const newComment = await commentService(id, user, comment)
 
@@ -184,7 +185,7 @@ export const deleteComments = async (req, res) => {
         const { idComment } = req.params
         const user = req.userId
 
-        if (!idComment) return res.status(400).send({ message: "nao tem id" })
+        if (!idComment||!id) return res.status(400).send({ message: "nao tem id" })  
 
         const commentDelete = await deleteCommentsService(id, idComment, user)
 
@@ -192,9 +193,16 @@ export const deleteComments = async (req, res) => {
 
         if (!commentFinder) return res.status(400).send({ message: "comentario nao existe" })
 
-        if (commentFinder.user != user) return res.status(400).send({ message: "voce nao e o criador do comentario" })
+        const post = await PostFindById(id)
+        
+
+        if (commentFinder.user != user && user != post.user._id)  {
+            console.log("ERREI")
+            return res.status(400).send({ message: "voce nao e o criador do comentario" })
+        }
 
         res.send({ message: "comentario excluido" })
+
     } catch (err) { res.status(500).send(err) }
 }
 
@@ -226,7 +234,7 @@ export const findAll = async (req, res) => {
         const previousUrl = previous != null ? `${currentUrl}?limit=${limit}&offset=${previous}` : null
 
         if (post.length === 0) {
-            return res.status(400).send({ mensagem: "Nao existe nenhuma postagem" })
+            return res.send(post)
         }
 
         res.send({

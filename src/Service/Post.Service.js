@@ -56,7 +56,7 @@ export const commentService = async (id, user, comment) => {
     }
 };
 
-export const deleteCommentsService = (id, idComment, user) => Post.findOneAndUpdate({ _id: id }, { $pull: { comments: { idComment, user } } })
+export const deleteCommentsService = (id, idComment, user) => Post.findOneAndUpdate({ _id: id }, { $pull: { comments: { idComment } } })
 
 
 export const findAllService = (offset, limit) => Post.find().sort({ _id: -1 }).skip(offset).limit(limit).populate("user")
@@ -74,7 +74,7 @@ const bucket = admin.storage().bucket()
 
 export const uploadImage = (req, res, next) => {
 
-    if (!req.file) return res.status(400).send("adicione uma imagem")
+    if (!req.file) return next()
 
     const imagem = req.file
     const fileName = Date.now() + "." + imagem.originalname.split(".").pop()
