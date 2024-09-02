@@ -22,7 +22,7 @@ App.use('/auth', AuthRouter);
 App.use('/Post', PostRouter);
 
 connectMongoDb().then(() => {
-    App.listen(PORT, () => console.log('servidor rodando e banco de dados conectado'));
+    App.listen(PORT,'0.0.0.0', () => console.log('servidor rodando e banco de dados conectado'));
 }).catch((error) => console.error(error));
 
 
